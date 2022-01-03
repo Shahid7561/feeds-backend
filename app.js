@@ -43,7 +43,7 @@ mongoose.connect(process.env.CONNECTION_STRING, {
 .catch((err)=> {
     console.log(err);
 })
-
+const PORT = process.env.PORT || 3000;
 //Server
 app.listen(3000, ()=>{
 
