@@ -21,31 +21,31 @@ router.post('/create', async (req,res)=>{
 
 router.get('/', async (req, res) => {
     let query = [
-        {
-            $lookup: {
-                from: Comment.collection.name,
-                localField: '_id',
-                foreignField: 'postId',
-                as: 'commentData'
-            },
-        },
-        {
-            $unwind: {
-                path: "$commentData",
-                preserveNullAndEmptyArrays: true
-              }
-        },
-        {
-            $lookup: {
-                from: User.collection.name,
-                localField: 'commentData.userId',
-                foreignField: '_id',
-                as: 'commentData.user'
-            }
-        },
-        {
-            $unwind: '$commentData.user'
-        },
+        // {
+        //     $lookup: {
+        //         from: Comment.collection.name,
+        //         localField: '_id',
+        //         foreignField: 'postId',
+        //         as: 'commentData'
+        //     },
+        // },
+        // {
+        //     $unwind: {
+        //         path: "$commentData",
+        //         preserveNullAndEmptyArrays: true
+        //       }
+        // },
+        // {
+        //     $lookup: {
+        //         from: User.collection.name,
+        //         localField: 'commentData.userId',
+        //         foreignField: '_id',
+        //         as: 'commentData.user'
+        //     }
+        // },
+        // {
+        //     $unwind: '$commentData.user'
+        // },
         {
             $lookup: {
                 from: User.collection.name,
@@ -57,23 +57,24 @@ router.get('/', async (req, res) => {
         {
             $unwind: '$user'
         },
-        {
-            $group: {
-                _id : "$_id",
-                image: { $first: "$image" },
-                user: {$first: "$user"},
-                text: {$first: "$text"},
-                commentData: {$push: "$commentData"},
-                comments_count: {$first: {$size: {"$ifNull": ["$comments", []]}}},
-                likes_count: {$first: {$size: {"$ifNull": ["$likedby", []]}}},
-            }
-        },
+        // {
+        //     $group: {
+        //         _id : "$_id",
+        //         image: { $first: "$image" },
+        //         user: {$first: "$user"},
+        //         text: {$first: "$text"},
+        //         commentData: {$push: "$commentData"},
+        //         comments_count: {$first: {$size: {"$ifNull": ["$comments", []]}}},
+        //         likes_count: {$first: {$size: {"$ifNull": ["$likedby", []]}}},
+        //     }
+        // },
         {
             $project: {
                 "id": 1,
                 "image": 1,
                 "text": 1,
                 "updated_at": 1,
+                "dCreatedDate":1,
                 "comments_count": 1,
                 "likes_count": 1,
                 "user": 1,
